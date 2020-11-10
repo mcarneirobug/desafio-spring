@@ -5,9 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -19,16 +17,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotNull
     private String name;
 
+    @NotNull
     private String email;
-
-    @OneToMany(mappedBy = "user")
-    private List<Music> musics = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<Playlist> playlists = new ArrayList<>();
 
     public User(String name, String email) {
         this.name = name;

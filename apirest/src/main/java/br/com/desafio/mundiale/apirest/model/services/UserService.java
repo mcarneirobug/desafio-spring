@@ -1,5 +1,6 @@
 package br.com.desafio.mundiale.apirest.model.services;
 
+import br.com.desafio.mundiale.apirest.dto.UserDTO;
 import br.com.desafio.mundiale.apirest.model.entities.Music;
 import br.com.desafio.mundiale.apirest.model.entities.Playlist;
 import br.com.desafio.mundiale.apirest.model.entities.User;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -31,12 +31,14 @@ public class UserService {
                         () -> new NotFoundException("Não foi encontrado nenhum usuário com o id informado."));
     }
 
-    public List<Music> searchAllMusic(Long id) throws NotFoundException {
-        final var user = this.searchById(id);
-        return user.getMusics();
-    }
+//    public List<Music> searchAllMusic(Long id) throws NotFoundException {
+//        final var user = this.searchById(id);
+////        return user.getMusics();
+//    }
 
-
-
+//    public List<Playlist> searchAllPlaylist(Long id) throws NotFoundException {
+//        final var user = this.searchById(id);
+////        return user.getPlaylists();
+//    }
 
 }

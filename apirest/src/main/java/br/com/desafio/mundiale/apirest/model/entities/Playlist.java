@@ -28,10 +28,10 @@ public class Playlist {
     @NotNull(message = "Informe a descrição.")
     private String description;
 
-    private int ratingPlaylist;
+    private int rating_playlist;
 
     @ManyToMany
-    private List<Music> musics;
+    private List<Music> musics = new ArrayList<>();
 
     @ManyToOne
     private User user;
@@ -39,8 +39,8 @@ public class Playlist {
     public Playlist(String name, String description, int rating, List<Music> musics) {
         this.name = name;
         this.description = description;
-        this.ratingPlaylist = rating;
-        this.musics = new ArrayList<>();
+        this.rating_playlist = rating;
+        this.musics = musics;
     }
 
 }

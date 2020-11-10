@@ -1,47 +1,36 @@
 package br.com.desafio.mundiale.apirest.model.entities;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(catalog = "springdesafio", name = "music")
 public class Music {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
+    @Column(name = "name")
     @NotBlank(message = "Favor informar o nome.")
     @Size(min = 6, max = 250, message = "O nome deve conter de 6 a 250 caracteres")
     private String name;
 
+    @Column(name = "singer")
     @NotBlank(message = "Favor informar o nome do cantor(a).")
     private String singer;
 
-    private int releaseMusic;
+    @Column(name = "release_music")
+    private Integer releaseMusic;
 
-    private int ratingMusic;
-
-    @ManyToOne
-    private User user;
-
-    @ManyToMany(mappedBy = "musics")
-    private List<Playlist> playlist = new ArrayList<>();
-
-    public Music(String name, String singer, int release, int rating) {
-        this.name = name;
-        this.singer = singer;
-        this.releaseMusic = release;
-        this.ratingMusic = rating;
-    }
+    @Column(name = "rating_music")
+    private Integer ratingMusic;
 
 }
