@@ -13,7 +13,7 @@ O desafio proposto a ser desenvolvido é um gerenciador de acervo de músicas. P
 ### 🛠 Features
 
 - [ ] Cadastro de músicas.
-- [ ] Cadastro de usuários.
+- [X] Cadastro de usuários.
 - [ ] Criação e manutenção de Playlists.
 - [ ] Listar todas as playlists de um usuário.
 - [ ] Listar todas as músicas de uma playlist.
