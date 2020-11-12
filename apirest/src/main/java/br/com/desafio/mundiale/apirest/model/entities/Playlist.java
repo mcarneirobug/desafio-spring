@@ -1,5 +1,6 @@
 package br.com.desafio.mundiale.apirest.model.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,10 +12,13 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+
+@Entity
 public class Playlist {
 
     @Id
@@ -33,14 +37,8 @@ public class Playlist {
     @ManyToMany
     private List<Music> musics = new ArrayList<>();
 
-    @ManyToOne
-    private User user;
-
-    public Playlist(String name, String description, int rating, List<Music> musics) {
-        this.name = name;
-        this.description = description;
-        this.rating_playlist = rating;
-        this.musics = musics;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user", nullable = false, referencedColumnName = "id")
+    private User id_user_who_created;
 
 }

@@ -6,11 +6,14 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
+
+@Entity
 public class User {
 
     @Id
@@ -23,9 +26,11 @@ public class User {
     @NotNull
     private String email;
 
+    @OneToMany
+    private List<Playlist> playlists = new ArrayList<>();
+
     public User(String name, String email) {
         this.name = name;
         this.email = email;
     }
-
 }
