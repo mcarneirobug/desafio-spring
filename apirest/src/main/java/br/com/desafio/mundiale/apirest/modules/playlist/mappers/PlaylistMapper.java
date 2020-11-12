@@ -10,8 +10,11 @@ public class PlaylistMapper {
     public static PlaylistResponse toResponse(Playlist playlist) {
 
         final var playlistResponse = new PlaylistResponse();
+
         playlistResponse.setId(playlist.getId());
+        playlistResponse.setName(playlist.getName());
         playlistResponse.setDescription(playlist.getDescription());
+        playlistResponse.setRatingPlaylist(playlist.getRatingPlaylist());
         playlistResponse.setMusics(playlist.getMusics());
         playlistResponse.setId_user_who_created(playlist.getId_user_who_created().getId());
 
@@ -21,7 +24,7 @@ public class PlaylistMapper {
     /**
      * Mudando uma PlaylistRequest para Entidade Playlist
      * @param playlistRequest
-     * @return
+     * @return Playlist
      */
     public static Playlist to(PlaylistRequest playlistRequest, User user) {
 
@@ -29,8 +32,9 @@ public class PlaylistMapper {
 
         playlist.setName(playlistRequest.getName());
         playlist.setDescription(playlistRequest.getDescription());
-        playlist.setId_user_who_created(user);
+        playlist.setRatingPlaylist(playlistRequest.getRatingPlaylist());
         playlist.setMusics(playlistRequest.getMusics());
+        playlist.setId_user_who_created(user);
 
         return playlist;
     }

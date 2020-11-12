@@ -6,12 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Getter
 @Setter
@@ -25,14 +23,14 @@ public class Playlist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Favor informar o nome.")
+    @NotNull(message = "Favor informar o nome.")
     private String name;
 
     @Size(min = 10, max = 250, message = "A descrição deve conter de 10 a 250 caracteres")
     @NotNull(message = "Informe a descrição.")
     private String description;
 
-    private int rating_playlist;
+    private int ratingPlaylist;
 
     @ManyToMany
     private List<Music> musics = new ArrayList<>();

@@ -19,19 +19,19 @@ public class PlaylistController {
     @Autowired
     private PlaylistService playlistService;
 
+    @PostMapping("/create")
+    public PlaylistResponse create(@Valid @RequestBody PlaylistRequest playlistRequest) throws NotFoundException {
+        return this.playlistService.create(playlistRequest);
+    }
+
     @GetMapping("/list")
-    public List<Playlist> index() {
+    public List<PlaylistResponse> index() {
         return this.playlistService.searchAll();
     }
 
-    @PostMapping("/create/{id_user}")
-    public PlaylistResponse create(@Valid @RequestBody PlaylistRequest playlistRequest) throws NotFoundException {
-        return PlaylistMapper.toResponse(this.playlistService.create(playlistRequest));
-    }
-
     @GetMapping("/{id}")
-    public Playlist getById(@PathVariable Long id) throws NotFoundException {
-        return this.playlistService.searchById(id);
+    public PlaylistResponse getById(@PathVariable Long id) throws NotFoundException {
+        return PlaylistMapper.toResponse(this.playlistService.searchById(id));
     }
 
 //    @PostMapping("/associateUser/{id_playlist}/{id_user}")

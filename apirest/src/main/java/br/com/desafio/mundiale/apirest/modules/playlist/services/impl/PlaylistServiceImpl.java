@@ -5,6 +5,7 @@ import br.com.desafio.mundiale.apirest.model.repositories.PlaylistRepository;
 import br.com.desafio.mundiale.apirest.modules.music.services.MusicService;
 import br.com.desafio.mundiale.apirest.modules.playlist.mappers.PlaylistMapper;
 import br.com.desafio.mundiale.apirest.modules.playlist.request.PlaylistRequest;
+import br.com.desafio.mundiale.apirest.modules.playlist.response.PlaylistResponse;
 import br.com.desafio.mundiale.apirest.modules.playlist.services.PlaylistService;
 import br.com.desafio.mundiale.apirest.modules.user.services.UserService;
 import javassist.NotFoundException;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PlaylistServiceImpl implements PlaylistService {
@@ -31,10 +33,25 @@ public class PlaylistServiceImpl implements PlaylistService {
         this.musicService = musicService;
     }
 
-    public Playlist create(PlaylistRequest playlistRequest) throws NotFoundException {
+    public PlaylistResponse create(PlaylistRequest playlistRequest) throws NotFoundException {
         final var user = userService.searchById(playlistRequest.getId_user_who_created());
         final var playlist = PlaylistMapper.to(playlistRequest, user);
-        return this.playlistRepository.save(playlist);
+        return PlaylistMapper.toResponse(this.playlistRepository.save(playlist));
+    }
+
+    @Override
+    public List<PlaylistResponse> searchAll() {
+        return this.playlistRepository.findAll()
+                .stream()
+                .map(PlaylistMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Playlist searchById(Long id) throws NotFoundException {
+        return this.playlistRepository.findById(id)
+                .orElseThrow(
+                        () -> new NotFoundException("Não foi encontrado nenhuma playlist com o id informado."));
     }
 
 //    public Playlist associateUser(Long id_playlist, Long id_user) throws NotFoundException {
@@ -85,17 +102,6 @@ public class PlaylistServiceImpl implements PlaylistService {
 //        playlist.getMusics().addAll(user.getMusics());
 //        return this.playlistRepository.save(playlist);
 //    }
-    @Override
-    public List<Playlist> searchAll() {
-        return this.playlistRepository.findAll();
-    }
-
-    @Override
-    public Playlist searchById(Long id) throws NotFoundException {
-        return this.playlistRepository.findById(id)
-                .orElseThrow(
-                        () -> new NotFoundException("Não foi encontrado nenhuma playlist com o id informado."));
-    }
 
 //    public Playlist update(Playlist playlist) throws NotFoundException {
 //        this.searchById(playlist.getId());

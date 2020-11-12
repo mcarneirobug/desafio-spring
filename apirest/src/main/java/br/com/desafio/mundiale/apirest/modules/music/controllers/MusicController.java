@@ -22,6 +22,7 @@ public class MusicController {
     public List<MusicResponse> index() {
         return this.musicService.searchAll();
     }
+
     @PostMapping("/create")
     public MusicResponse create(@RequestBody @Valid MusicRequest musicRequest) {
         return this.musicService.create(musicRequest);
