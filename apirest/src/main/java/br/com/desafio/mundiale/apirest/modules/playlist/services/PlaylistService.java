@@ -15,4 +15,6 @@ public interface PlaylistService {
 
     Playlist searchById(Long id) throws NotFoundException;
 
+    PlaylistResponse associateMusic(Long idPlaylist, Long idMusic) throws NotFoundException;
+
 }

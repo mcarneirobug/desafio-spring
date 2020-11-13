@@ -34,15 +34,16 @@ public class PlaylistController {
         return PlaylistMapper.toResponse(this.playlistService.searchById(id));
     }
 
+    @PostMapping("/associateSong/{idPlaylist}/{idMusic}")
+    public PlaylistResponse associateSong(@PathVariable Long idPlaylist, @PathVariable Long idMusic) throws NotFoundException {
+        return this.playlistService.associateMusic(idPlaylist, idMusic);
+    }
+
 //    @PostMapping("/associateUser/{id_playlist}/{id_user}")
 //    public Playlist associate(@PathVariable Long id_playlist, @PathVariable Long id_user) throws NotFoundException {
 //        return this.playlistService.associateUser(id_playlist, id_user);
 //    }
 
-//    @PostMapping("/associateSong/{id_playlist}/{id_music}")
-//    public Playlist associateSong(@PathVariable Long id_playlist, @PathVariable Long id_music) throws NotFoundException {
-//        return this.playlistService.associateMusic(id_playlist, id_music);
-//    }
 
 //    @GetMapping("/getPlaylistUser/{id_user}")
 //    public Playlist getPlaylistUser(@PathVariable Long id_user) throws NotFoundException {

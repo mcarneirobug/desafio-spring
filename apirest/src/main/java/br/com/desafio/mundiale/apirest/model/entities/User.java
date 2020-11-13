@@ -1,5 +1,6 @@
 package br.com.desafio.mundiale.apirest.model.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 
 @Entity
 public class User {
@@ -29,8 +31,4 @@ public class User {
     @OneToMany
     private List<Playlist> playlists = new ArrayList<>();
 
-    public User(String name, String email) {
-        this.name = name;
-        this.email = email;
-    }
 }

@@ -54,6 +54,16 @@ public class PlaylistServiceImpl implements PlaylistService {
                         () -> new NotFoundException("Não foi encontrado nenhuma playlist com o id informado."));
     }
 
+    @Override
+    public PlaylistResponse associateMusic(Long idPlaylist, Long idMusic) throws NotFoundException {
+        final var music = musicService.searchById(idMusic);
+        final var playlist = this.searchById(idPlaylist);
+
+        playlist.getMusics().add(music); // vai pegar a música e adicionar na lista
+
+        return PlaylistMapper.toResponse(this.playlistRepository.save(playlist));
+    }
+
 //    public Playlist associateUser(Long id_playlist, Long id_user) throws NotFoundException {
 //        final var user = userService.searchById(id_user);
 //        final var playlist = this.searchById(id_playlist);
@@ -63,23 +73,10 @@ public class PlaylistServiceImpl implements PlaylistService {
 //        return this.playlistRepository.save(playlist);
 //    }
 
-//    public Playlist associateMusic(Long id_playlist, Long id_music) throws NotFoundException {
-//        final var music = musicService.searchById(id_music);
-//        final var playlist = this.searchById(id_playlist);
-//
-//        playlist.getMusics().add(music); // vai pegar a música e adicionar na lista
-//
-//        return this.playlistRepository.save(playlist);
-//    }
 
 //    public List<Playlist> listAllPlaylist(Long id_user, List<Playlist> playlists) throws NotFoundException {
 //        final var user = userService.searchById(id_user);
 //        final var playlist = playlistRepository
-
-
-
-
-
 
 //        if (playlist.getUser().getId().equals(user.getId())) {
 //            return playlist;

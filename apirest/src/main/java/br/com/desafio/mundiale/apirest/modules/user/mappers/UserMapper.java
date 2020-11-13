@@ -33,7 +33,7 @@ public class UserMapper {
 
         user.setName(userRequest.getName());
         user.setEmail(userRequest.getEmail());
-//        userResponse.setPlaylists(user.getPlaylists());
+//        user.setPlaylists(user.getPlaylists());
 
         return user;
     }
