@@ -7,6 +7,7 @@ import br.com.desafio.mundiale.apirest.modules.playlist.mappers.PlaylistMapper;
 import br.com.desafio.mundiale.apirest.modules.playlist.request.PlaylistRequest;
 import br.com.desafio.mundiale.apirest.modules.playlist.response.PlaylistResponse;
 import br.com.desafio.mundiale.apirest.modules.playlist.services.PlaylistService;
+import br.com.desafio.mundiale.apirest.modules.playlist.update.PlaylistUpdate;
 import br.com.desafio.mundiale.apirest.modules.user.services.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,23 @@ public class PlaylistServiceImpl implements PlaylistService {
         playlist.getMusics().add(music); // vai pegar a música e adicionar na lista
 
         return PlaylistMapper.toResponse(this.playlistRepository.save(playlist));
+    }
+
+    @Override
+    public PlaylistResponse searchAllMusic(Long idPlaylist) throws NotFoundException {
+        final var playlist = searchById(idPlaylist);
+        return PlaylistMapper.toResponseOnlyMusic(playlist);
+    }
+
+    @Override
+    public Playlist update(Long id, PlaylistUpdate playlistUpdate) throws NotFoundException {
+
+        final Playlist playlist = this.playlistRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Não foi encontrado playlist para o ID informado!"));
+        playlist.setName(playlistUpdate.getName());
+        playlist.setDescription(playlistUpdate.getDescription());
+        playlist.setRatingPlaylist(playlistUpdate.getRatingPlaylist());
+        return this.playlistRepository.save(playlist);
     }
 
 //    public Playlist associateUser(Long id_playlist, Long id_user) throws NotFoundException {

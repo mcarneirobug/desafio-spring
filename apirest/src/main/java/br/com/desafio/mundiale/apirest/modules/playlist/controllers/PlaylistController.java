@@ -5,10 +5,12 @@ import br.com.desafio.mundiale.apirest.modules.playlist.mappers.PlaylistMapper;
 import br.com.desafio.mundiale.apirest.modules.playlist.request.PlaylistRequest;
 import br.com.desafio.mundiale.apirest.modules.playlist.response.PlaylistResponse;
 import br.com.desafio.mundiale.apirest.modules.playlist.services.PlaylistService;
+import br.com.desafio.mundiale.apirest.modules.playlist.update.PlaylistUpdate;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Path;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -39,10 +41,15 @@ public class PlaylistController {
         return this.playlistService.associateMusic(idPlaylist, idMusic);
     }
 
-//    @PostMapping("/associateUser/{id_playlist}/{id_user}")
-//    public Playlist associate(@PathVariable Long id_playlist, @PathVariable Long id_user) throws NotFoundException {
-//        return this.playlistService.associateUser(id_playlist, id_user);
-//    }
+    @GetMapping("/getAllMusics/{idPlaylist}")
+    public PlaylistResponse getAllMusics(@PathVariable Long idPlaylist) throws NotFoundException {
+        return this.playlistService.searchAllMusic(idPlaylist);
+    }
+
+    @PutMapping("/{id}")
+    public PlaylistResponse update(@PathVariable Long id, @RequestBody PlaylistUpdate playlistUpdate) throws NotFoundException {
+        return PlaylistMapper.toResponse(this.playlistService.update(id, playlistUpdate));
+    }
 
 
 //    @GetMapping("/getPlaylistUser/{id_user}")
