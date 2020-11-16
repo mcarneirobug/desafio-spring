@@ -1,6 +1,7 @@
 package br.com.desafio.mundiale.apirest.modules.user.services;
 
 import br.com.desafio.mundiale.apirest.model.entities.User;
+import br.com.desafio.mundiale.apirest.modules.playlist.response.PlaylistResponse;
 import br.com.desafio.mundiale.apirest.modules.user.request.UserRequest;
 import br.com.desafio.mundiale.apirest.modules.user.response.UserResponse;
 import javassist.NotFoundException;
@@ -14,7 +15,6 @@ public interface UserService {
 
     User searchById(Long id) throws NotFoundException;
 
-//    User create
-
+    List<PlaylistResponse> searchAllPlaylist(Long idUser) throws NotFoundException;
 
 }

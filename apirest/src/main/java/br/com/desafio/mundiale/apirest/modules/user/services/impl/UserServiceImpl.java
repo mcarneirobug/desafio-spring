@@ -1,7 +1,10 @@
 package br.com.desafio.mundiale.apirest.modules.user.services.impl;
 
+import br.com.desafio.mundiale.apirest.model.entities.Playlist;
 import br.com.desafio.mundiale.apirest.model.entities.User;
 import br.com.desafio.mundiale.apirest.model.repositories.UserRepository;
+import br.com.desafio.mundiale.apirest.modules.playlist.mappers.PlaylistMapper;
+import br.com.desafio.mundiale.apirest.modules.playlist.response.PlaylistResponse;
 import br.com.desafio.mundiale.apirest.modules.user.mappers.UserMapper;
 import br.com.desafio.mundiale.apirest.modules.user.request.UserRequest;
 import br.com.desafio.mundiale.apirest.modules.user.response.UserResponse;
@@ -39,5 +42,13 @@ public class UserServiceImpl implements UserService {
                         () -> new NotFoundException("Não foi encontrado nenhum usuário com o id informado."));
     }
 
+    @Override
+    public List<PlaylistResponse> searchAllPlaylist(Long idUser) throws NotFoundException {
+        final var user = searchById(idUser);
 
+        return user.getPlaylists()
+                .stream()
+                .map(PlaylistMapper::toResponse)
+                .collect(Collectors.toList());
+    }
 }

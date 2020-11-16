@@ -2,6 +2,8 @@ package br.com.desafio.mundiale.apirest.modules.playlist.services.impl;
 
 import br.com.desafio.mundiale.apirest.model.entities.Playlist;
 import br.com.desafio.mundiale.apirest.model.repositories.PlaylistRepository;
+import br.com.desafio.mundiale.apirest.modules.music.mappers.MusicMapper;
+import br.com.desafio.mundiale.apirest.modules.music.response.MusicResponse;
 import br.com.desafio.mundiale.apirest.modules.music.services.MusicService;
 import br.com.desafio.mundiale.apirest.modules.playlist.mappers.PlaylistMapper;
 import br.com.desafio.mundiale.apirest.modules.playlist.request.PlaylistRequest;
@@ -37,6 +39,7 @@ public class PlaylistServiceImpl implements PlaylistService {
     public PlaylistResponse create(PlaylistRequest playlistRequest) throws NotFoundException {
         final var user = userService.searchById(playlistRequest.getId_user_who_created());
         final var playlist = PlaylistMapper.to(playlistRequest, user);
+        user.getPlaylists().add(playlist);
         return PlaylistMapper.toResponse(this.playlistRepository.save(playlist));
     }
 
@@ -66,60 +69,42 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
-    public PlaylistResponse searchAllMusic(Long idPlaylist) throws NotFoundException {
+    public List<MusicResponse> searchAllMusic(Long idPlaylist) throws NotFoundException {
         final var playlist = searchById(idPlaylist);
-        return PlaylistMapper.toResponseOnlyMusic(playlist);
+        // como quero retornar musicas da playlist eu mapeio
+        return playlist.getMusics()
+                .stream()
+                .map(MusicMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Playlist update(Long id, PlaylistUpdate playlistUpdate) throws NotFoundException {
+    public Playlist update(Long idPlaylist, PlaylistUpdate playlistUpdate) throws NotFoundException {
 
-        final Playlist playlist = this.playlistRepository.findById(id)
+        final Playlist playlist = this.playlistRepository.findById(idPlaylist)
                 .orElseThrow(() -> new NotFoundException("Não foi encontrado playlist para o ID informado!"));
+
         playlist.setName(playlistUpdate.getName());
         playlist.setDescription(playlistUpdate.getDescription());
         playlist.setRatingPlaylist(playlistUpdate.getRatingPlaylist());
+
         return this.playlistRepository.save(playlist);
     }
 
-//    public Playlist associateUser(Long id_playlist, Long id_user) throws NotFoundException {
-//        final var user = userService.searchById(id_user);
-//        final var playlist = this.searchById(id_playlist);
-//
-//        playlist.setUser(user); // pega o usuário e adiciona ele na playlist
-//
-//        return this.playlistRepository.save(playlist);
-//    }
+    @Override
+    public Playlist removeMusic(Long idPlaylist, PlaylistUpdate playlistUpdate) throws NotFoundException {
+        final var playlist = this.playlistRepository.findById(idPlaylist)
+                .orElseThrow(() -> new NotFoundException("Não foi encontrado playlist para o ID informado!"));
 
+        final var music = this.musicService.searchById(playlistUpdate.getIdMusic());
+        playlist.getMusics().remove(music);
 
-//    public List<Playlist> listAllPlaylist(Long id_user, List<Playlist> playlists) throws NotFoundException {
-//        final var user = userService.searchById(id_user);
-//        final var playlist = playlistRepository
+        return this.playlistRepository.save(playlist);
+    }
 
-//        if (playlist.getUser().getId().equals(user.getId())) {
-//            return playlist;
-//        }
-//        return null;
-//    }
-
-//    public Playlist associate(Long id_playlist, Long id_user) throws NotFoundException {
-//        final var user = userService.searchById(id_user);
-//        final var playlist = this.searchById(id_playlist);
-//        playlist.setUser(user);
-//        playlist.getUser().getPlaylists().add(playlist);
-//        playlist.getMusics().addAll(user.getMusics());
-//        return this.playlistRepository.save(playlist);
-//    }
-
-//    public Playlist associateMusic(Long id_playlist, Long id_user) throws NotFoundException {
-//        final var user = userService.searchById(id_user);
-//        final var playlist = this.searchById(id_playlist);
-//        playlist.getMusics().addAll(user.getMusics());
-//        return this.playlistRepository.save(playlist);
-//    }
-
-//    public Playlist update(Playlist playlist) throws NotFoundException {
-//        this.searchById(playlist.getId());
-//        return this.playlistRepository.save(playlist);
-//    }
+    @Override
+    public void remove(Long idPlaylist) throws NotFoundException {
+        final var playlist = this.searchById(idPlaylist);
+        this.playlistRepository.deleteById(playlist.getId());
+    }
 }

@@ -18,5 +18,4 @@ public class MusicRequest {
     private Integer releaseMusic;
 
     private Integer ratingMusic;
-
 }

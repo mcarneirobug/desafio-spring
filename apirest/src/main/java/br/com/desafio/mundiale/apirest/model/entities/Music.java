@@ -34,5 +34,4 @@ public class Music {
     private Integer releaseMusic;
 
     private Integer ratingMusic;
-
 }

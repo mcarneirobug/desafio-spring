@@ -6,6 +6,7 @@ import br.com.desafio.mundiale.apirest.modules.music.mappers.MusicMapper;
 import br.com.desafio.mundiale.apirest.modules.music.request.MusicRequest;
 import br.com.desafio.mundiale.apirest.modules.music.response.MusicResponse;
 import br.com.desafio.mundiale.apirest.modules.music.services.MusicService;
+import br.com.desafio.mundiale.apirest.modules.music.update.MusicUpdate;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,5 +39,23 @@ public class MusicServiceImpl implements MusicService {
         return this.musicRepository.findById(id)
                 .orElseThrow(
                         () -> new NotFoundException("Não foi encontrado nenhuma música com o id informado."));
+    }
+
+    @Override
+    public Music update(Long idMusic, MusicUpdate musicUpdate) throws NotFoundException {
+        final var music = this.searchById(idMusic);
+
+        music.setName(musicUpdate.getName());
+        music.setSinger(musicUpdate.getSinger());
+        music.setReleaseMusic(musicUpdate.getReleaseMusic());
+        music.setRatingMusic(musicUpdate.getRatingMusic());
+
+        return this.musicRepository.save(music);
+    }
+
+    @Override
+    public void remove(Long idMusic) throws NotFoundException {
+        final var music = this.searchById(idMusic);
+        this.musicRepository.deleteById(music.getId());
     }
 }

@@ -1,6 +1,7 @@
 package br.com.desafio.mundiale.apirest.modules.playlist.services;
 
 import br.com.desafio.mundiale.apirest.model.entities.Playlist;
+import br.com.desafio.mundiale.apirest.modules.music.response.MusicResponse;
 import br.com.desafio.mundiale.apirest.modules.playlist.request.PlaylistRequest;
 import br.com.desafio.mundiale.apirest.modules.playlist.response.PlaylistResponse;
 import br.com.desafio.mundiale.apirest.modules.playlist.update.PlaylistUpdate;
@@ -18,8 +19,11 @@ public interface PlaylistService {
 
     PlaylistResponse associateMusic(Long idPlaylist, Long idMusic) throws NotFoundException;
 
-    // Método proposto para a partir de uma playlist listar somente suas músicas
-    PlaylistResponse searchAllMusic(Long idPlaylist) throws NotFoundException;
+    List<MusicResponse> searchAllMusic(Long idPlaylist) throws NotFoundException;
 
-    Playlist update(Long id, PlaylistUpdate playlistUpdate) throws NotFoundException;
+    Playlist update(Long idPlaylist, PlaylistUpdate playlistUpdate) throws NotFoundException;
+
+    Playlist removeMusic(Long idPlaylist, PlaylistUpdate playlistUpdate) throws NotFoundException;
+
+    void remove(Long idPlaylist) throws NotFoundException;
 }
