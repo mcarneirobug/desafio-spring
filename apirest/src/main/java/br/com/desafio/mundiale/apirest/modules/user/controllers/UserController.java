@@ -1,11 +1,11 @@
 package br.com.desafio.mundiale.apirest.modules.user.controllers;
 
-import br.com.desafio.mundiale.apirest.model.entities.Playlist;
 import br.com.desafio.mundiale.apirest.modules.playlist.response.PlaylistResponse;
 import br.com.desafio.mundiale.apirest.modules.user.mappers.UserMapper;
 import br.com.desafio.mundiale.apirest.modules.user.request.UserRequest;
 import br.com.desafio.mundiale.apirest.modules.user.response.UserResponse;
 import br.com.desafio.mundiale.apirest.modules.user.services.UserService;
+import br.com.desafio.mundiale.apirest.modules.user.update.UserUpdate;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import javassist.NotFoundException;
@@ -24,16 +24,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/list")
-    @ApiOperation("Retorna uma lista de usuários.")
-    public List<UserResponse> index() {
-        return userService.searchAll();
-    }
-
     @PostMapping("/create")
-    @ApiOperation("Retorna o usuário criado.")
+    @ApiOperation("Crie um novo usuário.")
     public UserResponse create(@Valid @RequestBody UserRequest userRequest) {
         return userService.create(userRequest);
+    }
+
+    @GetMapping("/list")
+    @ApiOperation("Visualize uma lista de usuários")
+    public List<UserResponse> index() {
+        return userService.searchAll();
     }
 
     /**
@@ -46,13 +46,19 @@ public class UserController {
      * @throws NotFoundException
      */
     @GetMapping("/{id}")
-    @ApiOperation("Retorna o usuário específico.")
+    @ApiOperation("Visualize um usuário.")
     public UserResponse getById(@PathVariable Long id) throws NotFoundException {
         return UserMapper.toResponse(userService.searchById(id));
     }
 
+    @PutMapping("/{idUser}")
+    @ApiOperation("Atualize um usuário.")
+    public UserResponse update(@PathVariable Long idUser, @Valid @RequestBody UserUpdate userUpdate) throws NotFoundException {
+        return UserMapper.toResponse(userService.update(idUser, userUpdate));
+    }
+
     @GetMapping("/listAllPlaylist/{idUser}")
-    @ApiOperation("Retorna a lista de playlist de determinado usuário.")
+    @ApiOperation("Visualize todas as playlists de um usuário.")
     public List<PlaylistResponse> searchAllPlaylist(@PathVariable Long idUser) throws NotFoundException {
         return this.userService.searchAllPlaylist(idUser);
     }

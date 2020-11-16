@@ -1,6 +1,5 @@
 package br.com.desafio.mundiale.apirest.modules.user.services.impl;
 
-import br.com.desafio.mundiale.apirest.model.entities.Playlist;
 import br.com.desafio.mundiale.apirest.model.entities.User;
 import br.com.desafio.mundiale.apirest.model.repositories.UserRepository;
 import br.com.desafio.mundiale.apirest.modules.playlist.mappers.PlaylistMapper;
@@ -9,6 +8,7 @@ import br.com.desafio.mundiale.apirest.modules.user.mappers.UserMapper;
 import br.com.desafio.mundiale.apirest.modules.user.request.UserRequest;
 import br.com.desafio.mundiale.apirest.modules.user.response.UserResponse;
 import br.com.desafio.mundiale.apirest.modules.user.services.UserService;
+import br.com.desafio.mundiale.apirest.modules.user.update.UserUpdate;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,5 +50,15 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .map(PlaylistMapper::toResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public User update(Long idUser, UserUpdate userUpdate) throws NotFoundException {
+        final var user = this.searchById(idUser);
+
+        user.setName(userUpdate.getName());
+        user.setEmail(userUpdate.getEmail());
+
+        return this.userRepository.save(user);
     }
 }

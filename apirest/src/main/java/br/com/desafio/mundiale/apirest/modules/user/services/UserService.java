@@ -4,6 +4,7 @@ import br.com.desafio.mundiale.apirest.model.entities.User;
 import br.com.desafio.mundiale.apirest.modules.playlist.response.PlaylistResponse;
 import br.com.desafio.mundiale.apirest.modules.user.request.UserRequest;
 import br.com.desafio.mundiale.apirest.modules.user.response.UserResponse;
+import br.com.desafio.mundiale.apirest.modules.user.update.UserUpdate;
 import javassist.NotFoundException;
 
 import java.util.List;
@@ -17,4 +18,5 @@ public interface UserService {
 
     List<PlaylistResponse> searchAllPlaylist(Long idUser) throws NotFoundException;
 
+    User update(Long idUser, UserUpdate userUpdate) throws NotFoundException;
 }
