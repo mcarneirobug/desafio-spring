@@ -10,6 +10,11 @@
 
 O desafio proposto a ser desenvolvido é um gerenciador de acervo de músicas. Portanto, precisa-se criar uma aplicação REST que permita cadastrar músicas e criar playlist por usuários.
 
+### ⌨️ Instruções para Execução 
+
+- Para acessar os endpoints da aplicação, assim que for inicializada: http://localhost:8080/swagger-ui.html
+- Exemplos de requisições com JSON pré-configurados, utilizando o Postman: https://www.getpostman.com/collections/cddb8721daa952f27566
+
 ### 🛠 Features
 
 - [X] Cadastro de músicas.
