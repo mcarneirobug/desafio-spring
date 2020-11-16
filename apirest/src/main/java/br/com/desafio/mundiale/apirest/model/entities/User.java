@@ -28,7 +28,7 @@ public class User {
     @NotNull
     private String email;
 
-    @OneToMany
+    @OneToMany(mappedBy = "id_user_who_created")
     private List<Playlist> playlists = new ArrayList<>();
 
 }
