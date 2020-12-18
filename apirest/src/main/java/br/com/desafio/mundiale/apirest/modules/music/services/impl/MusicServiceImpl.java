@@ -8,7 +8,6 @@ import br.com.desafio.mundiale.apirest.modules.music.response.MusicResponse;
 import br.com.desafio.mundiale.apirest.modules.music.services.MusicService;
 import br.com.desafio.mundiale.apirest.modules.music.update.MusicUpdate;
 import javassist.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +16,11 @@ import java.util.stream.Collectors;
 @Service
 public class MusicServiceImpl implements MusicService {
 
-    @Autowired
-    private MusicRepository musicRepository;
+    private final MusicRepository musicRepository;
+
+    public MusicServiceImpl(MusicRepository musicRepository) {
+        this.musicRepository = musicRepository;
+    }
 
     @Override
     public MusicResponse create(MusicRequest musicRequest) {
