@@ -10,6 +10,7 @@ import javassist.NotFoundException;
 import java.util.List;
 
 public interface UserService {
+
     List<UserResponse> searchAll();
 
     UserResponse create(UserRequest userRequest);
@@ -18,5 +19,5 @@ public interface UserService {
 
     List<PlaylistResponse> searchAllPlaylist(Long idUser) throws NotFoundException;
 
-    User update(Long idUser, UserUpdate userUpdate) throws NotFoundException;
+    UserResponse update(Long idUser, UserUpdate userUpdate) throws NotFoundException;
 }

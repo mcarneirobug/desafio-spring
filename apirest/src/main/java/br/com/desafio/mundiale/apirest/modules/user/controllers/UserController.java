@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,11 +22,15 @@ import java.util.List;
 @CrossOrigin(origins = "*") // permite que qualquer domínio acesse minha API
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/create")
     @ApiOperation("Crie um novo usuário.")
+    @ResponseStatus(HttpStatus.CREATED)
     public UserResponse create(@Valid @RequestBody UserRequest userRequest) {
         return userService.create(userRequest);
     }
@@ -53,8 +58,9 @@ public class UserController {
 
     @PutMapping("/{idUser}")
     @ApiOperation("Atualize um usuário.")
+    @ResponseStatus(HttpStatus.OK)
     public UserResponse update(@PathVariable Long idUser, @Valid @RequestBody UserUpdate userUpdate) throws NotFoundException {
-        return UserMapper.toResponse(userService.update(idUser, userUpdate));
+        return userService.update(idUser, userUpdate);
     }
 
     @GetMapping("/listAllPlaylist/{idUser}")
